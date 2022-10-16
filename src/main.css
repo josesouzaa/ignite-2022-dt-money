@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :focus {
+    @apply outline-none ring-2 ring-green-500;
+  }
+  body {
+    @apply bg-gray-800 text-gray-100 antialiased;
+  }
+}
+
+@layer components {
+  .mainTable {
+    @apply w-full border-separate border-spacing-y-2 mt-6;
+  }
+  .mainTable td {
+    @apply px-5 py-8 bg-gray-700;
+  }
+  .mainTable td:first-child {
+    @apply rounded-l-md;
+  }
+  .mainTable td:last-child {
+    @apply rounded-r-md;
+  }
+}
