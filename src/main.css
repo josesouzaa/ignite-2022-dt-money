@@ -16,12 +16,28 @@
     @apply w-full border-separate border-spacing-y-2 mt-6;
   }
   .mainTable td {
-    @apply px-5 py-8 bg-gray-700;
+    @apply px-5 py-8 bg-gray-700 first:rounded-l-md last:rounded-r-md;
   }
-  .mainTable td:first-child {
-    @apply rounded-l-md;
+
+  .btnModal {
+    @apply bg-gray-700 p-4 flex items-center justify-center gap-2 rounded-md text-gray-300;
   }
-  .mainTable td:last-child {
-    @apply rounded-r-md;
+  .btnModal[data-state='checked'] {
+    @apply text-white;
+  }
+  .btnModal[data-state='checked'].income {
+    @apply bg-green-500;
+  }
+  .btnModal[data-state='checked'].income svg {
+    @apply text-white;
+  }
+  .btnModal[data-state='checked'].outcome {
+    @apply bg-red-500;
+  }
+  .btnModal[data-state='checked'].outcome svg {
+    @apply text-white;
+  }
+  .btnModal[data-state='unchecked']:hover {
+    @apply bg-gray-600 transition;
   }
 }
