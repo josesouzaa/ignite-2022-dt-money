@@ -1,34 +1,40 @@
+import { useTransactions } from '../contexts/TransactionsContext'
+
 import * as Dialog from '@radix-ui/react-dialog'
 import * as RadioGroup from '@radix-ui/react-radio-group'
 
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import * as z from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 import { ArrowCircleDown, ArrowCircleUp, X } from 'phosphor-react'
-import { zodResolver } from '@hookform/resolvers/zod'
 
 const newTransactionFormSchema = z.object({
   description: z.string(),
   price: z.number(),
-  category: z.string()
-  // type: z.enum(['income', 'outcome'])
+  category: z.string(),
+  type: z.enum(['income', 'outcome'])
 })
 
 type NewTransactionFormInputs = z.infer<typeof newTransactionFormSchema>
 
 export function NewTransactionModal() {
+  const { createTransaction } = useTransactions()
+
   const {
     register,
+    control,
     handleSubmit,
+    reset,
     formState: { isSubmitting }
   } = useForm<NewTransactionFormInputs>({
     resolver: zodResolver(newTransactionFormSchema)
   })
 
   async function handleCreateNewTransaction(data: NewTransactionFormInputs) {
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    await createTransaction(data)
 
-    console.log(data)
+    reset()
   }
 
   return (
@@ -73,17 +79,27 @@ export function NewTransactionModal() {
             {...register('category')}
           />
 
-          <RadioGroup.Root className="grid grid-cols-2 gap-4 mt-2">
-            <RadioGroup.Item value="income" className="btnModal income">
-              <ArrowCircleUp size={24} className="text-green-300" />
-              Entrada
-            </RadioGroup.Item>
+          <Controller
+            control={control}
+            name="type"
+            render={({ field }) => (
+              <RadioGroup.Root
+                onValueChange={field.onChange}
+                value={field.value}
+                className="grid grid-cols-2 gap-4 mt-2"
+              >
+                <RadioGroup.Item value="income" className="btnModal income">
+                  <ArrowCircleUp size={24} className="text-green-300" />
+                  Entrada
+                </RadioGroup.Item>
 
-            <RadioGroup.Item value="outcome" className="btnModal outcome">
-              <ArrowCircleDown size={24} className="text-red-300" />
-              Saída
-            </RadioGroup.Item>
-          </RadioGroup.Root>
+                <RadioGroup.Item value="outcome" className="btnModal outcome">
+                  <ArrowCircleDown size={24} className="text-red-300" />
+                  Saída
+                </RadioGroup.Item>
+              </RadioGroup.Root>
+            )}
+          />
 
           <button
             type="submit"
