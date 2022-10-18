@@ -10,11 +10,19 @@
     },
     {
       "id": 2,
-      "description": "hamburguer",
+      "description": "Hamburguer",
       "type": "outcome",
       "category": "Alimentação",
       "price": 50,
       "createdAt": "2022-10-16T23:17:14.967Z"
+    },
+    {
+      "id": 3,
+      "description": "Ignite",
+      "type": "outcome",
+      "category": "Educação",
+      "price": 1980,
+      "createdAt": "2022-10-14T23:17:14.967Z"
     }
   ]
 }
