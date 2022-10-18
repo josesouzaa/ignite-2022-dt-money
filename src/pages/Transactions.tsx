@@ -4,6 +4,8 @@ import { Header } from '../components/Header'
 import { SearchForm } from '../components/SearchForm'
 import { Summary } from '../components/Summary'
 
+import { dateFormatter, priceFormatter } from '../utils/formatter'
+
 export function Transactions() {
   const { transactions } = useTransactions()
 
@@ -27,10 +29,11 @@ export function Transactions() {
                       : 'text-red-300'
                   }
                 >
-                  {transaction.price}
+                  {transaction.type === 'outcome' && '- '}
+                  {priceFormatter.format(transaction.price)}
                 </td>
                 <td>{transaction.category}</td>
-                <td>{String(transaction.createdAt)}</td>
+                <td>{dateFormatter.format(new Date(transaction.createdAt))}</td>
               </tr>
             ))}
           </tbody>

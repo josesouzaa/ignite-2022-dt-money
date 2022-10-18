@@ -1,28 +1,11 @@
-import { useTransactions } from '../contexts/TransactionsContext'
+import { useSummary } from '../hooks/useSummary'
+
+import { priceFormatter } from '../utils/formatter'
 
 import { ArrowCircleUp, ArrowCircleDown, CurrencyDollar } from 'phosphor-react'
 
 export function Summary() {
-  const { transactions } = useTransactions()
-
-  const summary = transactions.reduce(
-    (acc, transaction) => {
-      if (transaction.type === 'income') {
-        acc.income += transaction.price
-        acc.total += transaction.price
-      } else {
-        acc.outcome += transaction.price
-        acc.total -= transaction.price
-      }
-
-      return acc
-    },
-    {
-      income: 0,
-      outcome: 0,
-      total: 0
-    }
-  )
+  const summary = useSummary()
 
   return (
     <section className="w-full max-w-[1120px] mx-auto px-6 grid grid-cols-3 gap-8 -mt-20">
@@ -32,7 +15,9 @@ export function Summary() {
           <ArrowCircleUp size={32} className="text-green-300" />
         </header>
 
-        <strong className="mt-4 text-[2rem]">{summary.income}</strong>
+        <strong className="mt-4 text-[2rem]">
+          {priceFormatter.format(summary.income)}
+        </strong>
       </div>
 
       <div className="bg-gray-600 rounded-md p-8">
@@ -41,7 +26,9 @@ export function Summary() {
           <ArrowCircleDown size={32} className="text-red-300" />
         </header>
 
-        <strong className="mt-4 text-[2rem]">{summary.outcome}</strong>
+        <strong className="mt-4 text-[2rem]">
+          {priceFormatter.format(summary.outcome)}
+        </strong>
       </div>
 
       <div className="bg-green-700 rounded-md p-8">
@@ -50,7 +37,9 @@ export function Summary() {
           <CurrencyDollar size={32} className="text-white" />
         </header>
 
-        <strong className="mt-4 text-[2rem]">{summary.total}</strong>
+        <strong className="mt-4 text-[2rem]">
+          {priceFormatter.format(summary.total)}
+        </strong>
       </div>
     </section>
   )
